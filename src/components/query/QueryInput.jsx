@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ArrowRight, Loader2, X, Database, ChevronDown } from 'lucide-react';
-import VoiceButton from './VoiceButton';
+import VoiceInput from '../VoiceInput';
 
 export default function QueryInput({
   query,
@@ -41,7 +41,10 @@ export default function QueryInput({
   };
 
   const handleVoiceTranscript = (text) => {
-    setQuery((prev) => (prev ? `${prev} ${text}` : text));
+    if (!text) return;
+    const clean = text.trim();
+    const formatted = clean.charAt(0).toUpperCase() + clean.slice(1);
+    setQuery((prev) => (prev ? `${prev.trim()} ${formatted}` : formatted));
     if (textareaRef.current) {
       textareaRef.current.focus();
     }
@@ -164,7 +167,7 @@ export default function QueryInput({
               </button>
             )}
 
-            <VoiceButton onTranscript={handleVoiceTranscript} disabled={isLoading} />
+            <VoiceInput onTranscript={handleVoiceTranscript} disabled={isLoading} />
           </div>
         </div>
       </div>
