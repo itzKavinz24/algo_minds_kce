@@ -8,6 +8,9 @@ export default function EmptyState({
   onSubmit,
   isLoading,
   onSelectPrompt,
+  sources = [],
+  selectedSourceId = 'all',
+  onSelectSource,
 }) {
   return (
     <div className="w-full max-w-2xl mx-auto py-12 sm:py-20 flex flex-col items-center text-center animate-fadeIn">
@@ -30,6 +33,9 @@ export default function EmptyState({
           autoFocus={true}
           showButton={true}
           buttonLabel="Analyze"
+          sources={sources}
+          selectedSourceId={selectedSourceId}
+          onSelectSource={onSelectSource}
         />
       </div>
 
@@ -41,7 +47,16 @@ export default function EmptyState({
       {/* Minimal Connected Data Note */}
       <div className="text-xs text-[#69716C] flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-[#4F9D69]"></span>
-        <span>Connected to 2 sources · E-Commerce · HRMS</span>
+        <span>
+          {sources.length > 0 ? (
+            <>
+              Connected to {sources.length} {sources.length === 1 ? 'source' : 'sources'}
+              {` · ${sources.map((s) => s.name).join(' · ')}`}
+            </>
+          ) : (
+            'No data sources connected yet'
+          )}
+        </span>
       </div>
     </div>
   );

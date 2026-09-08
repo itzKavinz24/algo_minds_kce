@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { ArrowRight, Loader2, X } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { ArrowRight, Loader2, X, Database, ChevronDown } from 'lucide-react';
 import VoiceButton from './VoiceButton';
 
 export default function QueryInput({
@@ -11,8 +11,12 @@ export default function QueryInput({
   autoFocus = false,
   showButton = true,
   buttonLabel = "Analyze",
+  sources = [],
+  selectedSourceId = 'all',
+  onSelectSource,
 }) {
   const textareaRef = useRef(null);
+  const [showSourceMenu, setShowSourceMenu] = useState(false);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -50,10 +54,92 @@ export default function QueryInput({
     }
   };
 
+  // Label for current selected source
+  const selectedSourceName =
+    selectedSourceId === 'all'
+      ? 'All sources (Auto)'
+      : sources.find((s) => s.id === selectedSourceId)?.name || 'Custom source';
+
   return (
     <div className="w-full flex flex-col items-center gap-4">
       {/* Input Box Container */}
-      <div className="w-full bg-white border border-[#E6E9E5] focus-within:border-[#3F8F68] focus-within:ring-2 focus-within:ring-[#3F8F68]/15 rounded-card p-3 sm:p-4 transition-all duration-150">
+      <div className="w-full bg-white border border-[#E6E9E5] focus-within:border-[#3F8F68] focus-within:ring-2 focus-within:ring-[#3F8F68]/15 rounded-card p-3 sm:p-4 transition-all duration-150 relative">
+        {/* Source Selector Bar */}
+        {sources && sources.length > 0 && onSelectSource && (
+          <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#E6E9E5]/60 text-xs">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowSourceMenu(!showSourceMenu)}
+                className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-[#F7F8F6] hover:bg-[#F2F4F0] border border-[#E6E9E5] text-[#69716C] hover:text-[#202522] transition-colors"
+              >
+                <Database className="w-3.5 h-3.5 text-[#3F8F68]" />
+                <span className="font-medium">Data source:</span>
+                <span className="text-[#202522] font-semibold">{selectedSourceName}</span>
+                <ChevronDown className="w-3 h-3 ml-0.5 opacity-60" />
+              </button>
+
+              {/* Source selection dropdown */}
+              {showSourceMenu && (
+                <>
+                  <div
+                    className="fixed inset-0 z-20"
+                    onClick={() => setShowSourceMenu(false)}
+                  />
+                  <div className="absolute left-0 mt-1 w-56 bg-white border border-[#E6E9E5] rounded-card shadow-lg p-1.5 z-30 animate-fadeIn">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onSelectSource('all');
+                        setShowSourceMenu(false);
+                      }}
+                      className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs transition-colors flex items-center justify-between ${
+                        selectedSourceId === 'all'
+                          ? 'bg-[#EAF5EE] text-[#3F8F68] font-semibold'
+                          : 'text-[#202522] hover:bg-[#F7F8F6]'
+                      }`}
+                    >
+                      <span>All sources (Auto-route)</span>
+                      <span className="text-[10px] text-[#69716C]">MCP</span>
+                    </button>
+
+                    <div className="my-1 border-t border-[#E6E9E5]" />
+
+                    {sources.map((src) => {
+                      const isSelected = selectedSourceId === src.id;
+                      return (
+                        <button
+                          key={src.id}
+                          type="button"
+                          onClick={() => {
+                            onSelectSource(src.id);
+                            setShowSourceMenu(false);
+                          }}
+                          className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs transition-colors flex items-center justify-between ${
+                            isSelected
+                              ? 'bg-[#EAF5EE] text-[#3F8F68] font-semibold'
+                              : 'text-[#202522] hover:bg-[#F7F8F6]'
+                          }`}
+                        >
+                          <span className="truncate">{src.name}</span>
+                          <span className="text-[10px] font-mono text-[#69716C] ml-1 shrink-0">
+                            {src.type}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <span className="text-[11px] text-[#69716C] hidden sm:inline">
+              Ask your data in plain English
+            </span>
+          </div>
+        )}
+
+        {/* Text Input Area */}
         <div className="flex items-start gap-2">
           <textarea
             ref={textareaRef}
