@@ -1,97 +1,105 @@
 import React from 'react';
 import { ArrowDownRight } from 'lucide-react';
 
-export default function RootCauseCard({ rca }) {
+export default function RootCauseCard({ rca, onSelectRecommendation }) {
   if (!rca) return null;
 
   return (
-    <div className="p-6 sm:p-7 rounded-card bg-white border border-[#E6E9E5] shadow-2xs space-y-6 mb-8">
-      {/* Executive Report Header */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-4 border-b border-[#E6E9E5]">
+    <div className="p-5 sm:p-6 rounded-card bg-white border border-[#DDE6E1] shadow-2xs space-y-5 mb-6">
+      {/* 1. Executive Headline */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b border-[#DDE6E1]">
         <div>
-          <span className="text-[11px] font-semibold text-[#69716C] uppercase tracking-wider block mb-1">
-            Diagnostic Analysis
+          <span className="text-[11px] font-semibold text-[#D76565] uppercase tracking-wider block mb-1">
+            Diagnostic Executive Report
           </span>
-          <h3 className="text-xl font-bold text-[#202522] tracking-tight">
-            {rca.headline || 'Why did revenue decline?'}
+          <h3 className="text-xl sm:text-2xl font-bold text-[#18221E] tracking-tight">
+            {rca.headline || `Sales decreased ${rca.metricDecline || '12%'}`}
           </h3>
-          <p className="text-xs text-[#69716C] mt-1">
-            {rca.metricPeriod || 'Month-over-month variance report'}
+          <p className="text-xs text-[#66736C] mt-0.5">
+            {rca.metricPeriod || 'Variance against previous period'}
           </p>
         </div>
 
         {rca.metricDecline && (
-          <div className="p-3 rounded-lg bg-[#FDF2F2] border border-[#FDE8E8] text-right shrink-0">
-            <span className="text-[11px] text-[#C85C5C] font-medium block">Net Change</span>
-            <span className="text-2xl font-bold text-[#C85C5C] flex items-center justify-end gap-0.5 font-mono">
-              <ArrowDownRight className="w-5 h-5" />
+          <div className="px-3.5 py-2 rounded-lg bg-[#FDF2F2] border border-[#D76565]/20 text-right shrink-0">
+            <span className="text-lg sm:text-xl font-bold text-[#D76565] flex items-center justify-end gap-1 font-mono">
+              <ArrowDownRight className="w-4 h-4 sm:w-5 sm:h-5" />
               {rca.metricDecline}
             </span>
           </div>
         )}
       </div>
 
-      {/* Main Contributors Breakdown */}
+      {/* 2. What changed? Numbered list */}
       {Array.isArray(rca.contributingFactors) && rca.contributingFactors.length > 0 && (
         <div className="space-y-3">
-          <h4 className="text-xs font-semibold text-[#69716C] uppercase tracking-wider">
-            Main contributors
+          <h4 className="text-xs font-semibold text-[#18221E] uppercase tracking-wider">
+            What changed?
           </h4>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {rca.contributingFactors.map((factor, idx) => (
-              <div key={idx} className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#202522]">{factor.name}</span>
-                  <div className="flex items-center gap-2">
-                    {factor.amount && (
-                      <span className="text-[#C85C5C] font-mono text-xs">{factor.amount}</span>
-                    )}
-                    <span className="font-bold text-[#202522] bg-[#F2F4F0] px-2 py-0.5 rounded text-[11px]">
-                      {factor.share}%
+              <div
+                key={idx}
+                className="flex items-start gap-3 p-2.5 rounded-lg bg-[#F4F7F5] border border-[#DDE6E1]/60"
+              >
+                <span className="w-5 h-5 rounded-full bg-white border border-[#DDE6E1] text-[#18221E] font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                  {idx + 1}
+                </span>
+                <div className="flex-1 text-xs sm:text-sm">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="font-semibold text-[#18221E]">{factor.name}</span>
+                    <span className="font-mono text-xs font-semibold text-[#D76565]">
+                      {factor.change || (factor.share ? `${factor.share}%` : '')}
                     </span>
                   </div>
+                  {factor.reason && (
+                    <p className="text-xs text-[#66736C] mt-0.5 leading-relaxed">
+                      {factor.reason}
+                    </p>
+                  )}
                 </div>
-
-                <div className="w-full h-2 rounded-full bg-[#F2F4F0] overflow-hidden">
-                  <div
-                    className="h-full bg-[#3F8F68] rounded-full"
-                    style={{ width: `${Math.min(factor.share, 100)}%` }}
-                  />
-                </div>
-
-                {factor.reason && (
-                  <p className="text-xs text-[#69716C] leading-relaxed">
-                    {factor.reason}
-                  </p>
-                )}
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Primary Driver */}
+      {/* 3. Main Driver */}
       {rca.diagnosis && (
-        <div className="p-4 rounded-lg bg-[#F7F8F6] border border-[#E6E9E5]">
-          <h4 className="text-xs font-semibold text-[#69716C] uppercase tracking-wider mb-1.5">
-            Primary driver
+        <div className="p-4 rounded-lg bg-[#E3F2EC]/40 border border-[#176B52]/20 space-y-1">
+          <h4 className="text-xs font-semibold text-[#176B52] uppercase tracking-wider">
+            Main driver
           </h4>
-          <p className="text-sm text-[#202522] leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-[#18221E] leading-relaxed font-semibold">
             {rca.diagnosis}
           </p>
+          {rca.evidence && (
+            <p className="text-xs text-[#66736C] mt-1 leading-relaxed">
+              {rca.evidence}
+            </p>
+          )}
         </div>
       )}
 
-      {/* Recommended Action */}
+      {/* 4. Next Steps */}
       {rca.recommendation && (
-        <div className="pt-2">
-          <h4 className="text-xs font-semibold text-[#69716C] uppercase tracking-wider mb-1.5">
-            Recommended action
+        <div className="pt-3 border-t border-[#DDE6E1]/60">
+          <h4 className="text-xs font-semibold text-[#66736C] uppercase tracking-wider mb-1.5">
+            Next steps
           </h4>
-          <p className="text-sm text-[#202522] leading-relaxed">
-            {rca.recommendation}
-          </p>
+          <button
+            type="button"
+            onClick={() => onSelectRecommendation && onSelectRecommendation(rca.recommendation)}
+            className="w-full text-left p-2.5 rounded-lg hover:bg-[#F4F7F5] transition-colors border border-transparent hover:border-[#DDE6E1] group"
+          >
+            <p className="text-xs sm:text-sm text-[#18221E] group-hover:text-[#176B52] leading-relaxed font-medium">
+              • {rca.recommendation}
+            </p>
+            <span className="text-[11px] text-[#66736C] block mt-1">
+              Click to ask as follow-up question
+            </span>
+          </button>
         </div>
       )}
     </div>

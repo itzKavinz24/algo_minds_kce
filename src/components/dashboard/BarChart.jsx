@@ -16,10 +16,10 @@ function CustomTooltip({ active, payload, label, yKey, isHorizontal }) {
     const catName = isHorizontal ? payload[0].payload.name : label;
 
     return (
-      <div className="bg-white border border-[#E6E9E5] p-3 rounded-lg shadow-md text-xs">
-        <div className="text-[#69716C] mb-1 font-medium">{catName}</div>
-        <div className="text-base font-bold text-[#202522] flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#3F8F68]"></span>
+      <div className="bg-white border border-[#DDE6E1] p-3 rounded-lg shadow-md text-xs">
+        <div className="text-[#66736C] mb-1 font-medium">{catName}</div>
+        <div className="text-base font-bold text-[#18221E] flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-[#176B52]"></span>
           <span>{formatSmartCell(yKey, val)}</span>
         </div>
       </div>
@@ -32,11 +32,11 @@ export default function BarChartComponent({
   data = [],
   x = 'category',
   y = 'revenue',
-  color = '#3F8F68',
+  color = '#176B52',
 }) {
   if (!Array.isArray(data) || data.length === 0) {
     return (
-      <div className="p-8 text-center text-[#69716C] text-xs">
+      <div className="p-8 text-center text-[#66736C] text-xs">
         No data available to display
       </div>
     );
@@ -60,20 +60,20 @@ export default function BarChartComponent({
             data={chartData}
             margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#F2F4F0" horizontal={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#EEF3F0" horizontal={false} />
             <XAxis
               type="number"
-              stroke="#69716C"
-              tick={{ fill: '#69716C', fontSize: 11 }}
+              stroke="#66736C"
+              tick={{ fill: '#66736C', fontSize: 11 }}
               tickLine={false}
-              axisLine={{ stroke: '#E6E9E5' }}
+              axisLine={{ stroke: '#DDE6E1' }}
               tickFormatter={(val) => formatCompactNumber(val)}
             />
             <YAxis
               type="category"
               dataKey="name"
-              stroke="#69716C"
-              tick={{ fill: '#202522', fontSize: 12, fontWeight: 500 }}
+              stroke="#66736C"
+              tick={{ fill: '#18221E', fontSize: 12, fontWeight: 500 }}
               tickLine={false}
               axisLine={false}
               width={100}
@@ -95,18 +95,18 @@ export default function BarChartComponent({
     <div className="w-full h-72 sm:h-80">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} margin={{ top: 15, right: 15, left: -15, bottom: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#F2F4F0" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#EEF3F0" vertical={false} />
           <XAxis
             dataKey="name"
-            stroke="#69716C"
-            tick={{ fill: '#69716C', fontSize: 12 }}
+            stroke="#66736C"
+            tick={{ fill: '#66736C', fontSize: 12 }}
             tickLine={false}
-            axisLine={{ stroke: '#E6E9E5' }}
+            axisLine={{ stroke: '#DDE6E1' }}
             dy={6}
           />
           <YAxis
-            stroke="#69716C"
-            tick={{ fill: '#69716C', fontSize: 12 }}
+            stroke="#66736C"
+            tick={{ fill: '#66736C', fontSize: 12 }}
             tickLine={false}
             axisLine={false}
             tickFormatter={(val) => formatCompactNumber(val)}

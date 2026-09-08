@@ -1,7 +1,7 @@
 """
 FastAPI Speech-to-Text and Orchestration Backend for AGENTVERSE.
-Provides the Groq Whisper-powered /api/speech-to-text endpoint, audio processing,
-and companion analytics endpoints.
+Provides the Local faster-whisper (Whisper Large-v3 Turbo) /api/speech-to-text endpoint,
+zero external STT APIs, zero API keys required, and companion analytics endpoints.
 """
 
 import os
@@ -13,25 +13,25 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from speech.groq_whisper_service import GroqWhisperService
+from speech.local_whisper_service import LocalWhisperService
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("agentverse_backend")
 
 # Global speech service instance
-speech_service: Optional[GroqWhisperService] = None
+speech_service: Optional[LocalWhisperService] = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Initialize Groq Whisper speech service on server startup."""
+    """Initialize Local Whisper speech service on server startup."""
     global speech_service
-    logger.info("Starting AGENTVERSE Backend Service with Groq Whisper...")
+    logger.info("Starting AGENTVERSE Backend Service with Local Whisper Large-v3 Turbo...")
     try:
-        speech_service = GroqWhisperService.get_instance()
-        logger.info("Groq Whisper Speech Service initialized and ready.")
+        speech_service = LocalWhisperService.get_instance()
+        logger.info("Local Whisper Speech Service initialized and ready.")
     except Exception as e:
-        logger.error(f"Error initializing Groq Whisper speech service: {e}")
+        logger.error(f"Error initializing Local Whisper speech service: {e}")
     yield
     logger.info("Shutting down AGENTVERSE Backend Service.")
 
@@ -64,8 +64,9 @@ def root():
     return {
         "service": "AGENTVERSE Speech & Analytics Backend",
         "status": "running",
-        "speech_engine": "Groq Whisper",
-        "model": getattr(speech_service, "primary_model", "whisper-large-v3-turbo") if speech_service else "not_configured",
+        "speech_engine": "Local faster-whisper",
+        "model": "Whisper Large-v3 Turbo",
+        "device": getattr(speech_service, "device", "unknown") if speech_service else "uninitialized",
         "endpoints": ["/api/speech-to-text", "/api/query", "/api/health"]
     }
 
@@ -74,22 +75,24 @@ def health_check():
     return {
         "status": "healthy",
         "speech_model_ready": speech_service is not None,
-        "engine": "Groq Whisper",
-        "model": getattr(speech_service, "primary_model", "whisper-large-v3-turbo") if speech_service else None
+        "engine": "Local faster-whisper",
+        "model": "Whisper Large-v3 Turbo",
+        "device": getattr(speech_service, "device", "unknown") if speech_service else None,
+        "compute_type": getattr(speech_service, "compute_type", "unknown") if speech_service else None
     }
 
-# Max allowed audio upload size: 25 MB (Groq Whisper ceiling)
+# Max allowed audio upload size: 25 MB
 MAX_AUDIO_SIZE_BYTES = 25 * 1024 * 1024
 
 @app.post("/api/speech-to-text", response_model=SpeechToTextResponse)
 async def speech_to_text(file: UploadFile = File(...)):
     """
     Accept an audio recording (WebM, Opus, WAV, MP3, OGG, etc.),
-    transcribe via Groq Whisper (whisper-large-v3-turbo / whisper-large-v3),
+    transcribe 100% locally via faster-whisper (Whisper Large-v3 Turbo),
     and return clean text transcript.
     """
     if not speech_service:
-        logger.error("Speech service not loaded or GROQ_API_KEY missing.")
+        logger.error("Local Whisper speech service not loaded.")
         return SpeechToTextResponse(
             success=False,
             text="",
@@ -115,9 +118,9 @@ async def speech_to_text(file: UploadFile = File(...)):
         filename = file.filename or "recording.webm"
         logger.info(f"Received audio file '{filename}', size: {len(contents)} bytes")
 
-        # Perform speech recognition with Groq Whisper
+        # Perform speech recognition with local faster-whisper
         transcript = speech_service.transcribe(contents, filename=filename)
-        logger.info(f"Groq Whisper transcription result: '{transcript}'")
+        logger.info(f"Local Whisper transcription result: '{transcript}'")
 
         if not transcript:
             return SpeechToTextResponse(

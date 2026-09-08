@@ -132,7 +132,7 @@ export default function App() {
   const handleSelectRecentPrompt = (promptText) => {
     setActiveTab('analytics');
     setQuery(promptText);
-    runAnalysis(promptText);
+    setActiveTurnIndex(-1);
   };
 
   return (

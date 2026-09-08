@@ -6,14 +6,14 @@ export default function KPIGrid({ kpis = [] }) {
 
   return (
     <div
-      className={`grid gap-4 mb-8 ${
+      className={`grid gap-3 sm:gap-4 ${
         kpis.length === 1
-          ? 'grid-cols-1 sm:max-w-xs'
+          ? 'grid-cols-1 max-w-xs'
           : kpis.length === 2
           ? 'grid-cols-1 sm:grid-cols-2'
           : kpis.length === 3
           ? 'grid-cols-1 sm:grid-cols-3'
-          : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+          : 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-4'
       }`}
     >
       {kpis.map((kpi, idx) => (

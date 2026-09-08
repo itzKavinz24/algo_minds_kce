@@ -7,25 +7,32 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: '#F7F8F6',
+        canvas: '#F4F7F5',
         surface: '#FFFFFF',
-        'surface-subtle': '#F2F4F0',
-        'text-main': '#202522',
-        'text-muted': '#69716C',
-        'border-color': '#E6E9E5',
+        'surface-subtle': '#EEF3F0',
+        'text-main': '#18221E',
+        'text-muted': '#66736C',
+        'border-color': '#DDE6E1',
+        primary: {
+          DEFAULT: '#176B52',
+          hover: '#125641',
+          soft: '#E3F2EC',
+          softHover: '#D4EBE1',
+        },
+        accent: '#2FA87A',
         brand: {
           50: '#F4F9F6',
-          100: '#EAF5EE',
-          200: '#D5EBDD',
-          500: '#3F8F68',
-          600: '#347655',
-          700: '#2A6044',
+          100: '#E3F2EC',
+          200: '#D4EBE1',
+          500: '#176B52',
+          600: '#125641',
+          700: '#0E4333',
         },
         state: {
-          success: '#4F9D69',
-          warning: '#C58A35',
-          error: '#C85C5C',
-        }
+          success: '#3E9B68',
+          warning: '#D69A3A',
+          error: '#D76565',
+        },
       },
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],

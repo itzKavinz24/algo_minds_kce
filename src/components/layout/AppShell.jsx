@@ -10,9 +10,10 @@ export default function AppShell({
   isMockMode,
   setIsMockMode,
   connectedCount,
+  hasActiveResult = false,
 }) {
   return (
-    <div className="min-h-screen bg-[#F7F8F6] text-[#202522] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F4F7F5] text-[#18221E] flex flex-col font-sans">
       {/* Top Header Navigation */}
       <Header
         activeTab={activeTab}
@@ -22,6 +23,7 @@ export default function AppShell({
         isMockMode={isMockMode}
         setIsMockMode={setIsMockMode}
         connectedCount={connectedCount}
+        hasActiveResult={hasActiveResult}
       />
 
       {/* Main Spacious Content Area */}

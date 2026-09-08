@@ -74,28 +74,28 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
 
   if (!Array.isArray(data) || data.length === 0) {
     return (
-      <div className="p-8 rounded-card bg-white border border-[#E6E9E5] text-center text-[#69716C] text-xs">
+      <div className="p-8 rounded-card bg-white border border-[#DDE6E1] text-center text-[#66736C] text-xs">
         {emptyMessage}
       </div>
     );
   }
 
   return (
-    <div className="rounded-card bg-white border border-[#E6E9E5] overflow-hidden flex flex-col shadow-2xs">
+    <div className="rounded-card bg-white border border-[#DDE6E1] overflow-hidden flex flex-col shadow-2xs">
       {/* Table Header Controls */}
-      <div className="p-4 border-b border-[#E6E9E5] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
+      <div className="p-4 border-b border-[#DDE6E1] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
         <div>
-          <h4 className="text-sm font-semibold text-[#202522]">
+          <h4 className="text-sm font-semibold text-[#18221E]">
             {title || 'Detailed Records'}
           </h4>
-          <span className="text-xs text-[#69716C]">
+          <span className="text-xs text-[#66736C]">
             Showing {processedData.length} total entries
           </span>
         </div>
 
         {/* Filter Input */}
         <div className="relative w-full sm:w-52">
-          <Search className="w-3.5 h-3.5 text-[#69716C] absolute left-2.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-[#66736C] absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
@@ -104,15 +104,15 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
               setPage(1);
             }}
             placeholder="Search records..."
-            className="w-full bg-[#F7F8F6] border border-[#E6E9E5] rounded-md pl-8 pr-3 py-1.5 text-xs text-[#202522] placeholder-[#69716C]/60 focus:outline-none focus:border-[#3F8F68]"
+            className="w-full bg-[#F4F7F5] border border-[#DDE6E1] rounded-md pl-8 pr-3 py-1.5 text-xs text-[#18221E] placeholder-[#66736C]/60 focus:outline-none focus:border-[#176B52] focus:ring-2 focus:ring-[#176B52]/15 transition-all"
           />
         </div>
       </div>
 
       {/* Scrollable Table with Sticky Header & Subtle Zebra Rows */}
       <div className="overflow-x-auto max-h-96">
-        <table className="w-full text-left text-xs text-[#202522] border-collapse">
-          <thead className="bg-[#F7F8F6] sticky top-0 z-10 border-b border-[#E6E9E5] text-[#69716C] text-[11px] font-semibold uppercase tracking-wider">
+        <table className="w-full text-left text-xs text-[#18221E] border-collapse">
+          <thead className="bg-[#F4F7F5] sticky top-0 z-10 border-b border-[#DDE6E1] text-[#66736C] text-[11px] font-semibold uppercase tracking-wider">
             <tr>
               {columns.map((colKey) => {
                 const isSorted = sortConfig.key === colKey;
@@ -121,7 +121,7 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
                   <th
                     key={colKey}
                     onClick={() => handleSort(colKey)}
-                    className={`py-2.5 px-4 cursor-pointer hover:text-[#202522] transition-colors select-none whitespace-nowrap ${
+                    className={`py-2.5 px-4 cursor-pointer hover:text-[#18221E] transition-colors select-none whitespace-nowrap ${
                       isNum ? 'text-right' : 'text-left'
                     }`}
                   >
@@ -129,12 +129,12 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
                       <span>{formatLabel(colKey)}</span>
                       {isSorted ? (
                         sortConfig.direction === 'asc' ? (
-                          <ChevronUp className="w-3 h-3 text-[#3F8F68]" />
+                          <ChevronUp className="w-3 h-3 text-[#176B52]" />
                         ) : (
-                          <ChevronDown className="w-3 h-3 text-[#3F8F68]" />
+                          <ChevronDown className="w-3 h-3 text-[#176B52]" />
                         )
                       ) : (
-                        <ArrowUpDown className="w-3 h-3 text-[#69716C]/30" />
+                        <ArrowUpDown className="w-3 h-3 text-[#66736C]/30" />
                       )}
                     </div>
                   </th>
@@ -142,10 +142,10 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
               })}
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#E6E9E5]/60">
+          <tbody className="divide-y divide-[#DDE6E1]/60">
             {paginatedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="py-8 text-center text-[#69716C] italic">
+                <td colSpan={columns.length} className="py-8 text-center text-[#66736C] italic">
                   No records match your filter criteria.
                 </td>
               </tr>
@@ -155,8 +155,8 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
                 return (
                   <tr
                     key={rIdx}
-                    className={`transition-colors hover:bg-[#EAF5EE]/40 ${
-                      isZebra ? 'bg-[#F7F8F6]/40' : 'bg-white'
+                    className={`transition-colors hover:bg-[#E3F2EC]/40 ${
+                      isZebra ? 'bg-[#F4F7F5]/40' : 'bg-white'
                     }`}
                   >
                     {columns.map((colKey) => {
@@ -164,7 +164,7 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
                       return (
                         <td
                           key={colKey}
-                          className={`py-2.5 px-4 whitespace-nowrap text-[#202522] font-mono text-[11px] ${
+                          className={`py-2.5 px-4 whitespace-nowrap text-[#18221E] font-mono text-[11px] ${
                             isNum ? 'text-right' : 'text-left'
                           }`}
                         >
@@ -182,7 +182,7 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="p-3 border-t border-[#E6E9E5] bg-[#F7F8F6]/30 flex items-center justify-between text-xs text-[#69716C]">
+        <div className="p-3 border-t border-[#DDE6E1] bg-[#F4F7F5]/30 flex items-center justify-between text-xs text-[#66736C]">
           <span>
             Page {page} of {totalPages}
           </span>
@@ -191,7 +191,7 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-2.5 py-1 rounded bg-white border border-[#E6E9E5] hover:bg-[#F2F4F0] disabled:opacity-40 disabled:cursor-not-allowed text-xs transition-colors"
+              className="px-2.5 py-1 rounded bg-white border border-[#DDE6E1] hover:bg-[#EEF3F0] disabled:opacity-40 disabled:cursor-not-allowed text-xs transition-colors"
             >
               Previous
             </button>
@@ -199,7 +199,7 @@ export default function TableRenderer({ title, data = [], emptyMessage = 'No rec
               type="button"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-2.5 py-1 rounded bg-white border border-[#E6E9E5] hover:bg-[#F2F4F0] disabled:opacity-40 disabled:cursor-not-allowed text-xs transition-colors"
+              className="px-2.5 py-1 rounded bg-white border border-[#DDE6E1] hover:bg-[#EEF3F0] disabled:opacity-40 disabled:cursor-not-allowed text-xs transition-colors"
             >
               Next
             </button>

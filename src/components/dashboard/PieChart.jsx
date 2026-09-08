@@ -13,9 +13,9 @@ function CustomTooltip({ active, payload }) {
   if (active && payload && payload.length) {
     const item = payload[0];
     return (
-      <div className="bg-white border border-[#E6E9E5] p-2.5 rounded-lg shadow-md text-xs">
-        <div className="text-[#69716C] mb-0.5">{item.name}</div>
-        <div className="text-sm font-bold text-[#202522] flex items-center gap-1.5">
+      <div className="bg-white border border-[#DDE6E1] p-2.5 rounded-lg shadow-md text-xs">
+        <div className="text-[#66736C] mb-0.5">{item.name}</div>
+        <div className="text-sm font-bold text-[#18221E] flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.payload.fill }}></span>
           <span>{formatCompactNumber(item.value)}</span>
         </div>
@@ -32,7 +32,7 @@ export default function PieChartComponent({
 }) {
   if (!Array.isArray(data) || data.length === 0) {
     return (
-      <div className="p-8 text-center text-[#69716C] text-xs">
+      <div className="p-8 text-center text-[#66736C] text-xs">
         No distribution data available
       </div>
     );
@@ -75,10 +75,10 @@ export default function PieChartComponent({
 
         {/* Center Total Overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
-          <span className="text-xs text-[#69716C] font-medium uppercase tracking-wider">
+          <span className="text-xs text-[#66736C] font-medium uppercase tracking-wider">
             Total
           </span>
-          <span className="text-xl font-bold text-[#202522] tracking-tight">
+          <span className="text-xl font-bold text-[#18221E] tracking-tight">
             {formatCompactNumber(total)}
           </span>
         </div>
@@ -90,14 +90,14 @@ export default function PieChartComponent({
           const share = total > 0 ? ((item.value / total) * 100).toFixed(1) : 0;
           const color = CHART_COLORS[idx % CHART_COLORS.length];
           return (
-            <div key={idx} className="flex items-center justify-between p-1.5 rounded hover:bg-[#F7F8F6] transition-colors">
+            <div key={idx} className="flex items-center justify-between p-1.5 rounded hover:bg-[#F4F7F5] transition-colors">
               <div className="flex items-center gap-2 truncate pr-2">
                 <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }}></span>
-                <span className="text-[#202522] font-medium truncate">{item.name}</span>
+                <span className="text-[#18221E] font-medium truncate">{item.name}</span>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <span className="text-[#69716C] font-mono">{formatCompactNumber(item.value)}</span>
-                <span className="text-xs font-semibold text-[#202522] bg-[#F2F4F0] px-1.5 py-0.5 rounded text-[11px] min-w-[42px] text-right">
+                <span className="text-[#66736C] font-mono">{formatCompactNumber(item.value)}</span>
+                <span className="text-xs font-semibold text-[#18221E] bg-[#EEF3F0] px-1.5 py-0.5 rounded text-[11px] min-w-[42px] text-right">
                   {share}%
                 </span>
               </div>

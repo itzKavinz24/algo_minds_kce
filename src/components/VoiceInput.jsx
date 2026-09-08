@@ -7,7 +7,7 @@ export default function VoiceInput({
   disabled = false,
   onStateChange,
 }) {
-  const [status, setStatus] = useState('IDLE'); // 'IDLE' | 'RECORDING' | 'TRANSCRIBING' | 'ERROR'
+  const [status, setStatus] = useState('IDLE'); // 'IDLE' | 'RECORDING' | 'TRANSCRIBING' | 'SUCCESS' | 'ERROR'
   const [errorMessage, setErrorMessage] = useState('');
 
   const mediaRecorderRef = useRef(null);
@@ -114,11 +114,14 @@ export default function VoiceInput({
           if (text && onTranscript) {
             onTranscript(text);
           }
-          setStatus('IDLE');
+          setStatus('SUCCESS');
+          setTimeout(() => {
+            setStatus('IDLE');
+          }, 1800);
         } catch (err) {
           console.warn('[Speech Recognition Error]', err);
           setStatus('ERROR');
-          setErrorMessage("Couldn't transcribe your voice. Please try again.");
+          setErrorMessage("Couldn't transcribe your voice. Try again.");
         }
       };
 
@@ -129,7 +132,7 @@ export default function VoiceInput({
       console.warn('[Microphone Permission Error]', err);
       setStatus('ERROR');
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        setErrorMessage('Microphone access was denied. You can continue using text input.');
+        setErrorMessage('Microphone access denied. Please allow microphone permission.');
       } else {
         setErrorMessage('Unable to access microphone.');
       }
@@ -154,14 +157,14 @@ export default function VoiceInput({
   // 1. RECORDING STATE
   if (status === 'RECORDING') {
     return (
-      <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#FDECEC] border border-[#F5C2C2] text-xs text-[#C85C5C] shadow-2xs animate-fadeIn">
-        <span className="w-2 h-2 rounded-full bg-[#E04B4B] animate-pulse shrink-0"></span>
-        <span className="font-medium">Listening...</span>
+      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FDF2F2] border border-[#D76565]/30 text-xs text-[#D76565] shadow-2xs animate-fadeIn min-h-[36px]">
+        <span className="w-2 h-2 rounded-full bg-[#D76565] animate-pulse shrink-0"></span>
+        <span className="font-semibold text-xs">Listening...</span>
         <button
           type="button"
           onClick={stopRecording}
-          className="ml-1 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white hover:bg-[#FBE4E4] text-[#C85C5C] font-semibold text-[11px] shadow-2xs transition-colors"
-          title="Stop recording and transcribe"
+          className="ml-1 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white hover:bg-[#FBE4E4] text-[#D76565] font-semibold text-xs shadow-2xs transition-colors"
+          title="Done speaking"
         >
           <Square className="w-2.5 h-2.5 fill-current" />
           <span>Stop</span>
@@ -173,25 +176,35 @@ export default function VoiceInput({
   // 2. TRANSCRIBING STATE
   if (status === 'TRANSCRIBING') {
     return (
-      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#EAF5EE] border border-[#3F8F68]/25 text-xs text-[#3F8F68] shadow-2xs animate-fadeIn">
-        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-        <span className="font-medium">Transcribing...</span>
+      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#E3F2EC] border border-[#176B52]/20 text-xs text-[#176B52] shadow-2xs animate-fadeIn min-h-[36px]">
+        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#176B52]" />
+        <span className="font-semibold text-xs">Transcribing...</span>
       </div>
     );
   }
 
-  // 3. ERROR STATE
+  // 3. SUCCESS STATE
+  if (status === 'SUCCESS') {
+    return (
+      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#E3F2EC] border border-[#176B52]/20 text-xs text-[#176B52] shadow-2xs animate-fadeIn min-h-[36px]">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#3E9B68]"></span>
+        <span className="font-medium text-xs">Transcript ready</span>
+      </div>
+    );
+  }
+
+  // 4. ERROR STATE
   if (status === 'ERROR') {
     return (
-      <div className="relative inline-flex items-center gap-1.5 text-xs text-[#C85C5C] bg-[#FDECEC] border border-[#F5C2C2] px-2 py-1 rounded-md shadow-2xs animate-fadeIn max-w-xs">
+      <div className="relative inline-flex items-center gap-1.5 text-xs text-[#D76565] bg-[#FDF2F2] border border-[#D76565]/30 px-3 py-1.5 rounded-md shadow-2xs animate-fadeIn max-w-xs min-h-[36px]">
         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-        <span className="truncate" title={errorMessage}>
-          {errorMessage}
+        <span className="truncate text-[11px]" title={errorMessage}>
+          {errorMessage || "Couldn't transcribe your voice. Try again."}
         </span>
         <button
           type="button"
           onClick={startRecording}
-          className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white hover:bg-[#FBE4E4] text-[#C85C5C] font-medium text-[11px] ml-1 shrink-0"
+          className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white hover:bg-[#FBE4E4] text-[#D76565] font-medium text-[10px] ml-1 shrink-0"
           title="Retry voice recording"
         >
           <RefreshCw className="w-2.5 h-2.5" />
@@ -200,7 +213,7 @@ export default function VoiceInput({
         <button
           type="button"
           onClick={handleDismissError}
-          className="p-0.5 text-[#C85C5C]/70 hover:text-[#C85C5C] ml-0.5 shrink-0"
+          className="p-0.5 text-[#D76565]/70 hover:text-[#D76565] ml-0.5 shrink-0"
           title="Dismiss"
         >
           <X className="w-3 h-3" />
@@ -209,17 +222,18 @@ export default function VoiceInput({
     );
   }
 
-  // 4. IDLE STATE (Default minimal microphone button)
+  // 5. IDLE STATE: Friendly button with clear "Click to speak" indicator
   return (
     <button
       type="button"
       onClick={startRecording}
       disabled={disabled}
-      aria-label="Ask using voice"
-      title="Speak your question (Whisper Speech-to-Text)"
-      className="p-1.5 rounded-btn text-[#69716C] hover:text-[#202522] hover:bg-[#F2F4F0] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+      aria-label="Click to speak your analytics question"
+      title="Click to speak your question"
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F4F7F5] hover:bg-[#E3F2EC] text-[#66736C] hover:text-[#176B52] border border-[#DDE6E1] hover:border-[#176B52]/30 text-xs font-medium transition-all duration-180 disabled:opacity-40 disabled:cursor-not-allowed group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176B52]/20 min-h-[36px]"
     >
-      <Mic className="w-4 h-4 text-[#3F8F68]" />
+      <Mic className="w-3.5 h-3.5 text-[#176B52] group-hover:scale-110 transition-transform duration-180" />
+      <span className="hidden sm:inline font-medium">Click to speak</span>
     </button>
   );
 }

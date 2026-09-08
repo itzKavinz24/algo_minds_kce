@@ -60,90 +60,15 @@ export default function QueryInput({
   // Label for current selected source
   const selectedSourceName =
     selectedSourceId === 'all'
-      ? 'All sources (Auto)'
-      : sources.find((s) => s.id === selectedSourceId)?.name || 'Custom source';
+      ? 'All sources'
+      : sources.find((s) => s.id === selectedSourceId)?.name || 'All sources';
 
   return (
-    <div className="w-full flex flex-col items-center gap-4">
-      {/* Input Box Container */}
-      <div className="w-full bg-white border border-[#E6E9E5] focus-within:border-[#3F8F68] focus-within:ring-2 focus-within:ring-[#3F8F68]/15 rounded-card p-3 sm:p-4 transition-all duration-150 relative">
-        {/* Source Selector Bar */}
-        {sources && sources.length > 0 && onSelectSource && (
-          <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#E6E9E5]/60 text-xs">
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setShowSourceMenu(!showSourceMenu)}
-                className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-[#F7F8F6] hover:bg-[#F2F4F0] border border-[#E6E9E5] text-[#69716C] hover:text-[#202522] transition-colors"
-              >
-                <Database className="w-3.5 h-3.5 text-[#3F8F68]" />
-                <span className="font-medium">Data source:</span>
-                <span className="text-[#202522] font-semibold">{selectedSourceName}</span>
-                <ChevronDown className="w-3 h-3 ml-0.5 opacity-60" />
-              </button>
-
-              {/* Source selection dropdown */}
-              {showSourceMenu && (
-                <>
-                  <div
-                    className="fixed inset-0 z-20"
-                    onClick={() => setShowSourceMenu(false)}
-                  />
-                  <div className="absolute left-0 mt-1 w-56 bg-white border border-[#E6E9E5] rounded-card shadow-lg p-1.5 z-30 animate-fadeIn">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onSelectSource('all');
-                        setShowSourceMenu(false);
-                      }}
-                      className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs transition-colors flex items-center justify-between ${
-                        selectedSourceId === 'all'
-                          ? 'bg-[#EAF5EE] text-[#3F8F68] font-semibold'
-                          : 'text-[#202522] hover:bg-[#F7F8F6]'
-                      }`}
-                    >
-                      <span>All sources (Auto-route)</span>
-                      <span className="text-[10px] text-[#69716C]">MCP</span>
-                    </button>
-
-                    <div className="my-1 border-t border-[#E6E9E5]" />
-
-                    {sources.map((src) => {
-                      const isSelected = selectedSourceId === src.id;
-                      return (
-                        <button
-                          key={src.id}
-                          type="button"
-                          onClick={() => {
-                            onSelectSource(src.id);
-                            setShowSourceMenu(false);
-                          }}
-                          className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs transition-colors flex items-center justify-between ${
-                            isSelected
-                              ? 'bg-[#EAF5EE] text-[#3F8F68] font-semibold'
-                              : 'text-[#202522] hover:bg-[#F7F8F6]'
-                          }`}
-                        >
-                          <span className="truncate">{src.name}</span>
-                          <span className="text-[10px] font-mono text-[#69716C] ml-1 shrink-0">
-                            {src.type}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-            </div>
-
-            <span className="text-[11px] text-[#69716C] hidden sm:inline">
-              Ask your data in plain English
-            </span>
-          </div>
-        )}
-
-        {/* Text Input Area */}
-        <div className="flex items-start gap-2">
+    <div className="w-full">
+      {/* Integrated Query Card */}
+      <div className="w-full bg-white border border-[#DDE6E1] hover:border-[#CBD5D0] focus-within:border-[#176B52] focus-within:ring-2 focus-within:ring-[#176B52]/15 rounded-card p-4 sm:p-5 transition-all shadow-2xs relative">
+        {/* Main Text Input & Microphone Row */}
+        <div className="flex items-start gap-3">
           <textarea
             ref={textareaRef}
             value={query}
@@ -152,16 +77,18 @@ export default function QueryInput({
             disabled={isLoading}
             rows={2}
             placeholder={placeholder}
-            className="flex-1 bg-transparent text-[#202522] placeholder-[#69716C]/60 text-base resize-none focus:outline-none leading-relaxed min-h-[44px]"
+            className="flex-1 bg-transparent text-[#18221E] placeholder-[#66736C]/70 text-sm sm:text-base resize-none focus:outline-none leading-relaxed min-h-[56px]"
           />
 
-          <div className="flex items-center gap-1 shrink-0 self-end">
+          {/* Top-Right Voice & Clear Actions */}
+          <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
             {query && !isLoading && (
               <button
                 type="button"
                 onClick={clearInput}
-                className="p-1.5 text-[#69716C] hover:text-[#202522] rounded-btn transition-colors"
-                aria-label="Clear input"
+                className="min-h-[36px] min-w-[36px] flex items-center justify-center p-1.5 text-[#66736C] hover:text-[#18221E] hover:bg-[#EEF3F0] rounded-full transition-colors"
+                aria-label="Clear query"
+                title="Clear query"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -170,33 +97,112 @@ export default function QueryInput({
             <VoiceInput onTranscript={handleVoiceTranscript} disabled={isLoading} />
           </div>
         </div>
-      </div>
 
-      {/* Centered Analyze Button */}
-      {showButton && (
-        <button
-          type="button"
-          onClick={onSubmit}
-          disabled={!query.trim() || isLoading}
-          className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-btn text-sm font-medium transition-all ${
-            !query.trim() || isLoading
-              ? 'bg-[#E6E9E5] text-[#69716C] cursor-not-allowed'
-              : 'bg-[#3F8F68] hover:bg-[#347655] text-white shadow-sm hover:shadow active:scale-[0.99]'
-          }`}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Analyzing...</span>
-            </>
-          ) : (
-            <>
-              <span>{buttonLabel}</span>
-              <ArrowRight className="w-4 h-4" />
-            </>
+        {/* Bottom Bar: Source Selector on Left, Analyze Button on Right */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3.5 mt-2 border-t border-[#DDE6E1]/60 text-xs">
+          {/* Left: Data Source Picker & Keyboard Hint */}
+          <div className="flex items-center gap-3">
+            {sources && sources.length > 0 && onSelectSource ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setShowSourceMenu(!showSourceMenu)}
+                  className="min-h-[36px] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F4F7F5] hover:bg-[#EEF3F0] border border-[#DDE6E1] text-[#66736C] hover:text-[#18221E] transition-colors text-xs font-medium"
+                >
+                  <Database className="w-3.5 h-3.5 text-[#176B52]" />
+                  <span>Data source:</span>
+                  <span className="text-[#18221E] font-semibold truncate max-w-[140px] sm:max-w-none">
+                    {selectedSourceName}
+                  </span>
+                  <ChevronDown className="w-3 h-3 opacity-60 ml-0.5" />
+                </button>
+
+                {showSourceMenu && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-20"
+                      onClick={() => setShowSourceMenu(false)}
+                    />
+                    <div className="absolute left-0 bottom-full mb-1.5 w-56 bg-white border border-[#DDE6E1] rounded-card shadow-lg p-1.5 z-30 animate-fadeIn">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onSelectSource('all');
+                          setShowSourceMenu(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded-md text-xs transition-colors flex items-center justify-between ${
+                          selectedSourceId === 'all'
+                            ? 'bg-[#E3F2EC] text-[#176B52] font-semibold'
+                            : 'text-[#18221E] hover:bg-[#F4F7F5]'
+                        }`}
+                      >
+                        <span>All sources</span>
+                        <span className="text-[10px] text-[#3E9B68] font-medium">Auto</span>
+                      </button>
+
+                      <div className="my-1 border-t border-[#DDE6E1]" />
+
+                      {sources.map((src) => {
+                        const isSelected = selectedSourceId === src.id;
+                        return (
+                          <button
+                            key={src.id}
+                            type="button"
+                            onClick={() => {
+                              onSelectSource(src.id);
+                              setShowSourceMenu(false);
+                            }}
+                            className={`w-full text-left px-3 py-2 rounded-md text-xs transition-colors flex items-center justify-between ${
+                              isSelected
+                                ? 'bg-[#E3F2EC] text-[#176B52] font-semibold'
+                                : 'text-[#18221E] hover:bg-[#F4F7F5]'
+                            }`}
+                          >
+                            <span className="truncate">{src.name}</span>
+                            <span className="text-[10px] text-[#66736C] ml-1 shrink-0">
+                              Connected
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : null}
+
+            <span className="hidden md:inline text-[11px] text-[#66736C]">
+              Press <kbd className="px-1.5 py-0.5 rounded bg-[#EEF3F0] text-[#18221E] font-mono text-[10px] border border-[#DDE6E1]">Enter ↵</kbd> to analyze
+            </span>
+          </div>
+
+          {/* Right: Embedded Analyze Button */}
+          {showButton && (
+            <button
+              type="button"
+              onClick={onSubmit}
+              disabled={!query.trim() || isLoading}
+              className={`min-h-[44px] inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-btn text-sm font-semibold transition-all duration-200 self-end sm:self-auto w-full sm:w-auto ${
+                !query.trim() || isLoading
+                  ? 'bg-[#DDE6E1] text-[#66736C] cursor-not-allowed'
+                  : 'bg-[#176B52] hover:bg-[#125641] text-white shadow-2xs hover:shadow-xs active:scale-[0.98]'
+              }`}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Analyzing...</span>
+                </>
+              ) : (
+                <>
+                  <span>{buttonLabel}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
           )}
-        </button>
-      )}
+        </div>
+      </div>
     </div>
   );
 }

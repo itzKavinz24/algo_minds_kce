@@ -16,17 +16,17 @@ function CustomTooltip({ active, payload, label, yKey, peakItem }) {
     const isPeak = peakItem && label === peakItem.label;
 
     return (
-      <div className="bg-white border border-[#E6E9E5] p-3 rounded-lg shadow-md text-xs">
+      <div className="bg-white border border-[#DDE6E1] p-3 rounded-lg shadow-md text-xs">
         <div className="flex items-center justify-between gap-4 mb-1">
-          <span className="font-medium text-[#69716C]">{label}</span>
+          <span className="font-medium text-[#66736C]">{label}</span>
           {isPeak && (
-            <span className="text-[10px] font-semibold text-[#3F8F68] bg-[#EAF5EE] px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-semibold text-[#176B52] bg-[#E3F2EC] px-1.5 py-0.5 rounded">
               Peak
             </span>
           )}
         </div>
-        <div className="text-base font-bold text-[#202522] flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#3F8F68]"></span>
+        <div className="text-base font-bold text-[#18221E] flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-[#176B52]"></span>
           <span>{formatSmartCell(yKey, val)}</span>
         </div>
       </div>
@@ -39,11 +39,11 @@ export default function LineChartComponent({
   data = [],
   x = 'month',
   y = 'revenue',
-  color = '#3F8F68',
+  color = '#176B52',
 }) {
   if (!Array.isArray(data) || data.length === 0) {
     return (
-      <div className="p-8 text-center text-[#69716C] text-xs">
+      <div className="p-8 text-center text-[#66736C] text-xs">
         No data available to plot
       </div>
     );
@@ -76,18 +76,18 @@ export default function LineChartComponent({
               <stop offset="95%" stopColor={color} stopOpacity={0.0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#F2F4F0" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#EEF3F0" vertical={false} />
           <XAxis
             dataKey={x}
-            stroke="#69716C"
-            tick={{ fill: '#69716C', fontSize: 12 }}
+            stroke="#66736C"
+            tick={{ fill: '#66736C', fontSize: 12 }}
             tickLine={false}
-            axisLine={{ stroke: '#E6E9E5' }}
+            axisLine={{ stroke: '#DDE6E1' }}
             dy={8}
           />
           <YAxis
-            stroke="#69716C"
-            tick={{ fill: '#69716C', fontSize: 12 }}
+            stroke="#66736C"
+            tick={{ fill: '#66736C', fontSize: 12 }}
             tickLine={false}
             axisLine={false}
             tickFormatter={(val) => formatCompactNumber(val)}

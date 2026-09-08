@@ -116,16 +116,16 @@ export default function AddDataSourceModal({
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-xl bg-white border border-[#E6E9E5] rounded-card shadow-xl overflow-hidden z-10">
+      <div className="relative w-full max-w-xl bg-white border border-[#DDE6E1] rounded-card shadow-xl overflow-hidden z-10">
         {step === 'form' ? (
           <div>
             {/* Header */}
-            <div className="p-5 border-b border-[#E6E9E5] flex items-center justify-between">
+            <div className="p-5 border-b border-[#DDE6E1] flex items-center justify-between">
               <div>
-                <h3 className="text-base font-semibold text-[#202522]">
+                <h3 className="text-base font-semibold text-[#18221E]">
                   Connect a data source
                 </h3>
-                <p className="text-xs text-[#69716C] mt-0.5">
+                <p className="text-xs text-[#66736C] mt-0.5">
                   Choose the database or enterprise system you want to connect.
                 </p>
               </div>
@@ -133,7 +133,7 @@ export default function AddDataSourceModal({
               <button
                 type="button"
                 onClick={handleCloseAll}
-                className="p-1.5 rounded-btn text-[#69716C] hover:text-[#202522] hover:bg-[#F2F4F0] transition-colors"
+                className="p-1.5 rounded-btn text-[#66736C] hover:text-[#18221E] hover:bg-[#EEF3F0] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -142,7 +142,7 @@ export default function AddDataSourceModal({
             <form onSubmit={handleConnect} className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
               {/* 1. Database Type Picker */}
               <div>
-                <label className="text-xs font-semibold text-[#202522] uppercase tracking-wider block mb-2">
+                <label className="text-xs font-semibold text-[#18221E] uppercase tracking-wider block mb-2">
                   1. Supported Source
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -158,21 +158,21 @@ export default function AddDataSourceModal({
                         disabled={!isAvailable}
                         className={`p-2.5 rounded-lg border text-left transition-all ${
                           isSelected
-                            ? 'border-[#3F8F68] bg-[#EAF5EE]/40 text-[#202522] shadow-2xs'
+                            ? 'border-[#176B52] bg-[#E3F2EC]/40 text-[#18221E] shadow-2xs'
                             : isAvailable
-                            ? 'border-[#E6E9E5] bg-white hover:border-[#D1D5DB] text-[#202522]'
-                            : 'border-[#E6E9E5]/60 bg-[#F7F8F6] text-[#69716C]/60 cursor-not-allowed opacity-60'
+                            ? 'border-[#DDE6E1] bg-white hover:border-[#B9DCCE] text-[#18221E]'
+                            : 'border-[#DDE6E1]/60 bg-[#F4F7F5] text-[#66736C]/60 cursor-not-allowed opacity-60'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-0.5">
                           <span className="text-xs font-semibold">{dt.name}</span>
                           {!isAvailable && (
-                            <span className="text-[9px] px-1 py-0.2 rounded bg-[#E6E9E5] text-[#69716C]">
+                            <span className="text-[9px] px-1 py-0.2 rounded bg-[#DDE6E1] text-[#66736C]">
                               Soon
                             </span>
                           )}
                         </div>
-                        <span className="text-[10px] text-[#69716C] block truncate">
+                        <span className="text-[10px] text-[#66736C] block truncate">
                           {dt.desc}
                         </span>
                       </button>
@@ -183,12 +183,12 @@ export default function AddDataSourceModal({
 
               {/* 2. Connection Details Form */}
               <div className="space-y-4">
-                <label className="text-xs font-semibold text-[#202522] uppercase tracking-wider block mb-2">
+                <label className="text-xs font-semibold text-[#18221E] uppercase tracking-wider block mb-2">
                   2. Connection Parameters
                 </label>
 
                 <div>
-                  <label className="text-xs font-medium text-[#202522] block mb-1">
+                  <label className="text-xs font-medium text-[#18221E] block mb-1">
                     Connection Display Name
                   </label>
                   <input
@@ -196,13 +196,13 @@ export default function AddDataSourceModal({
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Sales Production Cluster"
-                    className="w-full bg-[#F7F8F6] border border-[#E6E9E5] rounded-md px-3 py-2 text-xs text-[#202522] focus:outline-none focus:border-[#3F8F68]"
+                    className="w-full bg-[#F4F7F5] border border-[#DDE6E1] rounded-md px-3 py-2 text-xs text-[#18221E] focus:outline-none focus:border-[#176B52] focus:ring-2 focus:ring-[#176B52]/15 transition-all"
                   />
                 </div>
 
                 <div className="grid grid-cols-3 gap-3">
                   <div className="col-span-2">
-                    <label className="text-xs font-medium text-[#202522] block mb-1">
+                    <label className="text-xs font-medium text-[#18221E] block mb-1">
                       Host
                     </label>
                     <input
@@ -210,24 +210,24 @@ export default function AddDataSourceModal({
                       value={formData.host}
                       onChange={(e) => setFormData({ ...formData, host: e.target.value })}
                       placeholder="db.company.internal"
-                      className="w-full bg-[#F7F8F6] border border-[#E6E9E5] rounded-md px-3 py-2 text-xs font-mono text-[#202522] focus:outline-none focus:border-[#3F8F68]"
+                      className="w-full bg-[#F4F7F5] border border-[#DDE6E1] rounded-md px-3 py-2 text-xs font-mono text-[#18221E] focus:outline-none focus:border-[#176B52] focus:ring-2 focus:ring-[#176B52]/15 transition-all"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-[#202522] block mb-1">
+                    <label className="text-xs font-medium text-[#18221E] block mb-1">
                       Port
                     </label>
                     <input
                       type="number"
                       value={formData.port}
                       onChange={(e) => setFormData({ ...formData, port: e.target.value })}
-                      className="w-full bg-[#F7F8F6] border border-[#E6E9E5] rounded-md px-3 py-2 text-xs font-mono text-[#202522] focus:outline-none focus:border-[#3F8F68]"
+                      className="w-full bg-[#F4F7F5] border border-[#DDE6E1] rounded-md px-3 py-2 text-xs font-mono text-[#18221E] focus:outline-none focus:border-[#176B52] focus:ring-2 focus:ring-[#176B52]/15 transition-all"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-medium text-[#202522] block mb-1">
+                  <label className="text-xs font-medium text-[#18221E] block mb-1">
                     Database Name
                   </label>
                   <input
@@ -235,13 +235,13 @@ export default function AddDataSourceModal({
                     value={formData.database}
                     onChange={(e) => setFormData({ ...formData, database: e.target.value })}
                     placeholder="e.g. analytics_db"
-                    className="w-full bg-[#F7F8F6] border border-[#E6E9E5] rounded-md px-3 py-2 text-xs font-mono text-[#202522] focus:outline-none focus:border-[#3F8F68]"
+                    className="w-full bg-[#F4F7F5] border border-[#DDE6E1] rounded-md px-3 py-2 text-xs font-mono text-[#18221E] focus:outline-none focus:border-[#176B52] focus:ring-2 focus:ring-[#176B52]/15 transition-all"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-medium text-[#202522] block mb-1">
+                    <label className="text-xs font-medium text-[#18221E] block mb-1">
                       Username
                     </label>
                     <input
@@ -249,11 +249,11 @@ export default function AddDataSourceModal({
                       value={formData.username}
                       onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                       placeholder="readonly_user"
-                      className="w-full bg-[#F7F8F6] border border-[#E6E9E5] rounded-md px-3 py-2 text-xs font-mono text-[#202522] focus:outline-none focus:border-[#3F8F68]"
+                      className="w-full bg-[#F4F7F5] border border-[#DDE6E1] rounded-md px-3 py-2 text-xs font-mono text-[#18221E] focus:outline-none focus:border-[#176B52] focus:ring-2 focus:ring-[#176B52]/15 transition-all"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-[#202522] block mb-1">
+                    <label className="text-xs font-medium text-[#18221E] block mb-1">
                       Password
                     </label>
                     <input
@@ -261,7 +261,7 @@ export default function AddDataSourceModal({
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       placeholder="••••••••"
-                      className="w-full bg-[#F7F8F6] border border-[#E6E9E5] rounded-md px-3 py-2 text-xs font-mono text-[#202522] focus:outline-none focus:border-[#3F8F68]"
+                      className="w-full bg-[#F4F7F5] border border-[#DDE6E1] rounded-md px-3 py-2 text-xs font-mono text-[#18221E] focus:outline-none focus:border-[#176B52] focus:ring-2 focus:ring-[#176B52]/15 transition-all"
                     />
                   </div>
                 </div>
@@ -272,9 +272,9 @@ export default function AddDataSourceModal({
                     id="ssl_toggle"
                     checked={formData.ssl}
                     onChange={(e) => setFormData({ ...formData, ssl: e.target.checked })}
-                    className="w-4 h-4 rounded text-[#3F8F68] focus:ring-[#3F8F68]"
+                    className="w-4 h-4 rounded text-[#176B52] focus:ring-[#176B52]"
                   />
-                  <label htmlFor="ssl_toggle" className="text-xs text-[#69716C] cursor-pointer">
+                  <label htmlFor="ssl_toggle" className="text-xs text-[#66736C] cursor-pointer">
                     Enable SSL / TLS connection verification
                   </label>
                 </div>
@@ -282,7 +282,7 @@ export default function AddDataSourceModal({
 
               {/* Feedback messages */}
               {formError && (
-                <div className="p-3 rounded-lg bg-[#FDECEC] border border-[#C85C5C]/30 text-xs text-[#C85C5C] flex items-center gap-2">
+                <div className="p-3 rounded-lg bg-[#FDF2F2] border border-[#D76565]/30 text-xs text-[#D76565] flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{formError}</span>
                 </div>
@@ -292,8 +292,8 @@ export default function AddDataSourceModal({
                 <div
                   className={`p-3 rounded-lg text-xs flex items-center gap-2 ${
                     testStatus.success
-                      ? 'bg-[#EAF5EE] text-[#3F8F68] border border-[#3F8F68]/30'
-                      : 'bg-[#FDECEC] text-[#C85C5C] border border-[#C85C5C]/30'
+                      ? 'bg-[#E3F2EC] text-[#176B52] border border-[#176B52]/30'
+                      : 'bg-[#FDF2F2] text-[#D76565] border border-[#D76565]/30'
                   }`}
                 >
                   {testStatus.success ? <CheckCircle2 className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
@@ -302,16 +302,16 @@ export default function AddDataSourceModal({
               )}
 
               {/* Action Buttons */}
-              <div className="pt-4 border-t border-[#E6E9E5] flex items-center justify-between gap-3">
+              <div className="pt-4 border-t border-[#DDE6E1] flex items-center justify-between gap-3">
                 <button
                   type="button"
                   onClick={handleTestConnection}
                   disabled={testing}
-                  className="px-4 py-2 rounded-btn bg-[#F7F8F6] hover:bg-[#F2F4F0] border border-[#E6E9E5] text-xs font-medium text-[#202522] transition-colors"
+                  className="px-4 py-2 rounded-btn bg-[#F4F7F5] hover:bg-[#EEF3F0] border border-[#DDE6E1] text-xs font-medium text-[#18221E] transition-colors"
                 >
                   {testing ? (
                     <span className="flex items-center gap-1.5">
-                      <Loader2 className="w-3.5 h-3.5 animate-spin text-[#3F8F68]" />
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-[#176B52]" />
                       Testing connection...
                     </span>
                   ) : (
@@ -323,7 +323,7 @@ export default function AddDataSourceModal({
                   <button
                     type="button"
                     onClick={handleCloseAll}
-                    className="px-3 py-2 rounded-btn text-xs font-medium text-[#69716C] hover:text-[#202522]"
+                    className="px-3 py-2 rounded-btn text-xs font-medium text-[#66736C] hover:text-[#18221E]"
                   >
                     Cancel
                   </button>
@@ -331,7 +331,7 @@ export default function AddDataSourceModal({
                   <button
                     type="submit"
                     disabled={connecting}
-                    className="inline-flex items-center gap-1.5 px-5 py-2 rounded-btn bg-[#3F8F68] hover:bg-[#347655] text-white text-xs font-medium transition-colors shadow-2xs"
+                    className="inline-flex items-center gap-1.5 px-5 py-2 rounded-btn bg-[#176B52] hover:bg-[#125641] text-white text-xs font-medium transition-colors shadow-2xs"
                   >
                     {connecting ? (
                       <>
@@ -352,32 +352,32 @@ export default function AddDataSourceModal({
         ) : (
           /* Step: Success Screen */
           <div className="p-6 text-center space-y-6 animate-fadeIn">
-            <div className="w-12 h-12 rounded-full bg-[#EAF5EE] text-[#3F8F68] flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 rounded-full bg-[#E3F2EC] text-[#176B52] flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-6 h-6" />
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-[#202522]">
+              <h3 className="text-lg font-semibold text-[#18221E]">
                 Database Connected Successfully
               </h3>
-              <p className="text-xs text-[#69716C] mt-1">
+              <p className="text-xs text-[#66736C] mt-1">
                 {newlyConnectedSource?.type} · {newlyConnectedSource?.name} · {newlyConnectedSource?.tables?.length || 0} tables discovered via MCP
               </p>
             </div>
 
             {/* Schema preview chips */}
             {newlyConnectedSource?.tables && (
-              <div className="p-4 rounded-lg bg-[#F7F8F6] border border-[#E6E9E5] text-left">
-                <span className="text-[11px] font-semibold text-[#69716C] uppercase tracking-wider block mb-2">
+              <div className="p-4 rounded-lg bg-[#F4F7F5] border border-[#DDE6E1] text-left">
+                <span className="text-[11px] font-semibold text-[#66736C] uppercase tracking-wider block mb-2">
                   Discovered Tables
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {newlyConnectedSource.tables.map((tbl) => (
                     <span
                       key={tbl.name}
-                      className="px-2 py-1 rounded bg-white border border-[#E6E9E5] text-xs font-mono text-[#202522] flex items-center gap-1"
+                      className="px-2 py-1 rounded bg-white border border-[#DDE6E1] text-xs font-mono text-[#18221E] flex items-center gap-1"
                     >
-                      <Table className="w-3 h-3 text-[#3F8F68]" />
+                      <Table className="w-3 h-3 text-[#176B52]" />
                       {tbl.name}
                     </span>
                   ))}
@@ -393,7 +393,7 @@ export default function AddDataSourceModal({
                     handleCloseAll();
                     onViewSchema(newlyConnectedSource);
                   }}
-                  className="px-4 py-2 rounded-btn bg-[#F7F8F6] hover:bg-[#F2F4F0] border border-[#E6E9E5] text-xs font-medium text-[#202522] transition-colors"
+                  className="px-4 py-2 rounded-btn bg-[#F4F7F5] hover:bg-[#EEF3F0] border border-[#DDE6E1] text-xs font-medium text-[#18221E] transition-colors"
                 >
                   View Full Schema
                 </button>
@@ -402,7 +402,7 @@ export default function AddDataSourceModal({
               <button
                 type="button"
                 onClick={handleCloseAll}
-                className="px-6 py-2 rounded-btn bg-[#3F8F68] hover:bg-[#347655] text-white text-xs font-medium transition-colors"
+                className="px-6 py-2 rounded-btn bg-[#176B52] hover:bg-[#125641] text-white text-xs font-medium transition-colors"
               >
                 Done
               </button>

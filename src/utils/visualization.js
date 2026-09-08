@@ -2,16 +2,15 @@
  * Visualization utilities and restrained palette definitions
  */
 
-// Fresh, professional, light-mode compatible palette
+// Consistent professional enterprise chart palette
 export const CHART_COLORS = [
-  '#3F8F68', // Primary Natural Green
-  '#3B82F6', // Crisp Blue
-  '#C58A35', // Warm Amber
-  '#8B5CF6', // Soft Violet
-  '#0D9488', // Muted Teal
-  '#E11D48', // Soft Rose
-  '#64748B', // Slate
-  '#D97706', // Ochre
+  '#176B52', // Primary Dark Emerald
+  '#2FA87A', // Secondary Vibrant Green
+  '#72B89D', // Light Mint / Sage
+  '#B9DCCE', // Very Light Mint
+  '#3E9B68', // Success / Positive
+  '#D69A3A', // Warning / Amber
+  '#D76565', // Negative / Red
 ];
 
 /**

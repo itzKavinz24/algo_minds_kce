@@ -100,28 +100,28 @@ export default function ChartRenderer({
   }
 
   return (
-    <div className={`rounded-card bg-white border border-[#E6E9E5] p-5 sm:p-6 shadow-2xs ${isHero ? 'sm:py-7' : ''}`}>
+    <div className={`rounded-card bg-white border border-[#DDE6E1] p-5 sm:p-6 shadow-2xs ${isHero ? 'sm:py-7' : ''}`}>
       {/* Chart Header with Interactive Chart | Data View Mode Toggle */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[#E6E9E5]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[#DDE6E1]">
         <div>
-          <h3 className={`font-semibold text-[#202522] tracking-tight ${isHero ? 'text-base sm:text-lg' : 'text-sm sm:text-base'}`}>
+          <h3 className={`font-semibold text-[#18221E] tracking-tight ${isHero ? 'text-base sm:text-lg' : 'text-sm sm:text-base'}`}>
             {title}
           </h3>
-          <p className="text-xs text-[#69716C] mt-0.5">
+          <p className="text-xs text-[#66736C] mt-0.5">
             {type === 'line' ? 'Monthly performance trend' : type === 'bar' ? 'Comparative metric ranking' : type === 'pie' ? 'Proportional share' : 'Analytical breakdown'}
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
           {/* Chart / Data View Switcher */}
-          <div className="inline-flex rounded-lg bg-[#F2F4F0] p-0.5 border border-[#E6E9E5]">
+          <div className="inline-flex rounded-lg bg-[#EEF3F0] p-0.5 border border-[#DDE6E1]">
             <button
               type="button"
               onClick={() => setViewMode('chart')}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
                 viewMode === 'chart'
-                  ? 'bg-white text-[#202522] shadow-2xs'
-                  : 'text-[#69716C] hover:text-[#202522]'
+                  ? 'bg-white text-[#18221E] shadow-2xs'
+                  : 'text-[#66736C] hover:text-[#18221E]'
               }`}
             >
               <BarChart2 className="w-3.5 h-3.5" />
@@ -132,8 +132,8 @@ export default function ChartRenderer({
               onClick={() => setViewMode('data')}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
                 viewMode === 'data'
-                  ? 'bg-white text-[#202522] shadow-2xs'
-                  : 'text-[#69716C] hover:text-[#202522]'
+                  ? 'bg-white text-[#18221E] shadow-2xs'
+                  : 'text-[#66736C] hover:text-[#18221E]'
               }`}
             >
               <TableIcon className="w-3.5 h-3.5" />
@@ -159,7 +159,7 @@ export default function ChartRenderer({
                     data={chartData}
                     x={x}
                     y={y}
-                    color={color || '#3F8F68'}
+                    color={color || '#176B52'}
                   />
                 );
 
@@ -169,7 +169,7 @@ export default function ChartRenderer({
                     data={chartData}
                     x={x}
                     y={y}
-                    color={color || '#3F8F68'}
+                    color={color || '#176B52'}
                   />
                 );
 
@@ -189,7 +189,7 @@ export default function ChartRenderer({
                     data={chartData}
                     x={x}
                     y={y}
-                    color={color || '#3F8F68'}
+                    color={color || '#176B52'}
                   />
                 );
 

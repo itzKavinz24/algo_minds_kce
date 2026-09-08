@@ -26,22 +26,22 @@ export default function SourceStatus() {
       {sources.map((src) => (
         <div
           key={src.id}
-          className="p-2.5 rounded-lg bg-[#0e1526] border border-[#1e293b] hover:border-slate-700 transition-colors text-xs"
+          className="p-2.5 rounded-lg bg-white border border-[#DDE6E1] hover:border-[#B9DCCE] transition-colors text-xs"
         >
           <div className="flex items-center justify-between mb-1">
-            <span className="font-medium text-slate-200 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span className="font-medium text-[#18221E] flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3E9B68]"></span>
               {src.name}
             </span>
-            <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-0.5">
+            <span className="text-[10px] text-[#3E9B68] font-mono flex items-center gap-0.5">
               <CheckCircle2 className="w-3 h-3" />
               {src.latency}
             </span>
           </div>
-          <div className="text-[11px] text-slate-400 font-mono truncate">
+          <div className="text-[11px] text-[#66736C] font-mono truncate">
             {src.engine}
           </div>
-          <div className="text-[10px] text-slate-500 truncate mt-0.5">
+          <div className="text-[10px] text-[#66736C]/80 truncate mt-0.5">
             {src.tables}
           </div>
         </div>

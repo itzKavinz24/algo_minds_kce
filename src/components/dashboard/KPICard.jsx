@@ -19,13 +19,13 @@ export default function KPICard({ title, value, delta, trend, caption }) {
   const isNegative = trend === 'down' || (delta && String(delta).startsWith('-'));
 
   return (
-    <div className="flex-1 min-w-[160px] p-5 bg-white border border-[#E6E9E5] rounded-card shadow-2xs hover:border-[#D1D5DB] transition-all">
-      <div className="text-xs font-medium text-[#69716C] mb-1.5 truncate">
+    <div className="flex-1 min-w-[160px] p-5 bg-white border border-[#DDE6E1] rounded-card shadow-2xs hover:border-[#CBD5D0] transition-all">
+      <div className="text-xs font-medium text-[#66736C] mb-1.5 truncate">
         {formatLabel(title)}
       </div>
 
       <div className="flex items-baseline gap-2.5 my-0.5">
-        <span className="text-2xl sm:text-3xl font-bold text-[#202522] tracking-tight">
+        <span className="text-2xl sm:text-3xl font-bold text-[#18221E] tracking-tight">
           {renderFormattedValue()}
         </span>
 
@@ -33,10 +33,10 @@ export default function KPICard({ title, value, delta, trend, caption }) {
           <span
             className={`inline-flex items-center text-xs font-semibold ${
               isPositive
-                ? 'text-[#4F9D69]'
+                ? 'text-[#3E9B68]'
                 : isNegative
-                ? 'text-[#C85C5C]'
-                : 'text-[#69716C]'
+                ? 'text-[#D76565]'
+                : 'text-[#66736C]'
             }`}
           >
             {isPositive && <ArrowUpRight className="w-3.5 h-3.5 mr-0.5" />}
@@ -48,7 +48,7 @@ export default function KPICard({ title, value, delta, trend, caption }) {
       </div>
 
       {caption && (
-        <div className="text-[11px] text-[#69716C] mt-1.5 truncate">
+        <div className="text-[11px] text-[#66736C] mt-1.5 truncate">
           {caption}
         </div>
       )}

@@ -47,7 +47,7 @@ ORDER BY month_num ASC;`,
         title: "Monthly Revenue Performance",
         x: "month",
         y: "revenue",
-        color: "#3F8F68"
+        color: "#176B52"
       }
     ],
     insight: "Revenue demonstrated consistent upward momentum throughout the year, culminating in strong 46% expansion during Q4 driven by festive demand and promotional campaigns.",
@@ -113,7 +113,7 @@ ORDER BY revenue DESC;`,
         title: "Revenue by Product Category",
         x: "category",
         y: "revenue",
-        color: "#3F8F68"
+        color: "#176B52"
       }
     ],
     insight: "Electronics and Fashion represent over 61% of gross enterprise revenue. Home & Kitchen shows the highest average order value despite moderate transaction volume.",
