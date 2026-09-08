@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, FileText, Loader2 } from 'lucide-react';
 import KPIGrid from './KPIGrid';
 import ChartRenderer from './ChartRenderer';
 import InsightCard from './InsightCard';
@@ -18,6 +18,7 @@ export default function Dashboard({
 }) {
   const [followUpText, setFollowUpText] = useState('');
   const [showFullDataTable, setShowFullDataTable] = useState(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
   if (!response) return null;
 
@@ -46,6 +47,52 @@ export default function Dashboard({
     if (followUpText.trim() && onFollowUpQuery) {
       onFollowUpQuery(followUpText.trim());
       setFollowUpText('');
+    }
+  };
+
+  const handleDownloadReport = async () => {
+    if (isGeneratingReport) return;
+    setIsGeneratingReport(true);
+    try {
+      const payload = response.analysis_result ? { analysis_result: response.analysis_result } : {
+        business_question: query,
+        query_result: {
+          columns: (data && data.length > 0) ? Object.keys(data[0]).map(k => ({ name: k, data_type: typeof data[0][k] === 'number' ? 'numeric' : 'text' })) : [],
+          rows: data || [],
+          row_count: data ? data.length : 0
+        },
+        analysis: {
+          summary: answerText || 'Executive analytical briefing.',
+          key_findings: Array.isArray(insight?.keyFindings) ? insight.keyFindings : (typeof insight === 'string' ? [insight] : []),
+          recommendations: recommendations || []
+        },
+        sql: sql || ''
+      };
+
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const res = await fetch(`${baseUrl.replace(/\/$/, '')}/generate-report`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Report generation failed');
+      const rep = await res.json();
+
+      const downloadRes = await fetch(`${baseUrl.replace(/\/$/, '')}/reports/${rep.report_id}/download`);
+      const blob = await downloadRes.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${rep.report_id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('[Report Generation Error]', err);
+      alert('Unable to generate PDF report. Please verify backend service.');
+    } finally {
+      setIsGeneratingReport(false);
     }
   };
 
@@ -91,9 +138,31 @@ export default function Dashboard({
             </div>
           </div>
 
-          <div className="text-xs text-[#66736C] flex items-center gap-1.5 shrink-0 self-start sm:self-auto">
-            <span className="w-2 h-2 rounded-full bg-[#176B52]"></span>
-            <span>Updated just now</span>
+          <div className="flex items-center gap-3 shrink-0 self-start sm:self-auto">
+            <button
+              type="button"
+              onClick={handleDownloadReport}
+              disabled={isGeneratingReport}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-card bg-white border border-[#DDE6E1] text-xs font-semibold text-[#176B52] hover:bg-[#E3F2EC]/50 hover:border-[#176B52] transition-colors focus-visible:outline-none shadow-2xs disabled:opacity-60 cursor-pointer"
+              title="Download publication-grade executive PDF report"
+            >
+              {isGeneratingReport ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>Generating PDF...</span>
+                </>
+              ) : (
+                <>
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Export PDF Report</span>
+                </>
+              )}
+            </button>
+
+            <div className="text-xs text-[#66736C] flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#176B52]"></span>
+              <span>Updated just now</span>
+            </div>
           </div>
         </div>
 

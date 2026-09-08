@@ -1,0 +1,10 @@
+﻿# Enterprise Analytics Report Generator Dependencies
+fastapi>=0.100.0
+uvicorn>=0.20.0
+pydantic>=2.0.0
+reportlab>=5.0.0
+matplotlib>=3.9.0
+numpy>=1.24.0
+pypdf>=6.0.0
+pymupdf>=1.24.0
+python-multipart>=0.0.9

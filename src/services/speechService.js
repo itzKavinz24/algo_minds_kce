@@ -1,6 +1,6 @@
 /**
  * Speech Service for AGENTVERSE.
- * Handles audio recording transmission to the backend speech-to-text endpoint (Groq Whisper).
+ * Handles audio recording transmission to the backend speech-to-text endpoint (Local faster-whisper).
  */
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -15,7 +15,7 @@ export class SpeechError extends Error {
 }
 
 /**
- * Sends an audio blob (WebM, Opus, WAV) to the backend Vosk speech-to-text service.
+ * Sends an audio blob (WebM, Opus, WAV) to the backend local Whisper speech-to-text service.
  * @param {Blob} audioBlob - Audio recording blob from MediaRecorder
  * @returns {Promise<string>} - Transcribed text
  */

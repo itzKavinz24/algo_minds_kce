@@ -1,0 +1,347 @@
+{
+  "$defs": {
+    "AnalysisContent": {
+      "description": "Analytical findings, executive summary, and recommendations.",
+      "properties": {
+        "summary": {
+          "description": "High-level executive takeaway in plain English",
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "key_findings": {
+          "description": "Factual findings directly supported by data",
+          "items": {
+            "type": "string"
+          },
+          "title": "Key Findings",
+          "type": "array"
+        },
+        "recommendations": {
+          "description": "Actionable recommendations based on analysis",
+          "items": {
+            "type": "string"
+          },
+          "title": "Recommendations",
+          "type": "array"
+        },
+        "data_quality_and_limitations": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Known limitations or caveats",
+          "title": "Data Quality And Limitations"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "title": "AnalysisContent",
+      "type": "object"
+    },
+    "ColumnSpec": {
+      "description": "Specification for a query result column.",
+      "properties": {
+        "name": {
+          "description": "Column name",
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "data_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "text",
+          "description": "Data type, e.g. text, numeric, integer, timestamp",
+          "title": "Data Type"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ColumnSpec",
+      "type": "object"
+    },
+    "DataSourceInfo": {
+      "description": "Information about the database or source system queried.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "enterprise_db",
+          "description": "Identifier of data source, e.g. ecommerce_db",
+          "title": "Id"
+        },
+        "engine": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "PostgreSQL",
+          "description": "Database engine, e.g. PostgreSQL, MySQL, Snowflake",
+          "title": "Engine"
+        },
+        "schema": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "public",
+          "description": "Database schema",
+          "title": "Schema"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Human-friendly display name",
+          "title": "Name"
+        }
+      },
+      "title": "DataSourceInfo",
+      "type": "object"
+    },
+    "QueryResult": {
+      "description": "Tabular data returned from the enterprise database query.",
+      "properties": {
+        "columns": {
+          "description": "List of column specifications",
+          "items": {
+            "$ref": "#/$defs/ColumnSpec"
+          },
+          "title": "Columns",
+          "type": "array"
+        },
+        "rows": {
+          "description": "List of row dictionaries",
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "row_count": {
+          "default": 0,
+          "description": "Total number of rows in result",
+          "minimum": 0,
+          "title": "Row Count",
+          "type": "integer"
+        }
+      },
+      "title": "QueryResult",
+      "type": "object"
+    },
+    "ReportMetadata": {
+      "description": "Execution and generation metadata for audit trail.",
+      "properties": {
+        "generated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "ISO timestamp of report creation",
+          "title": "Generated At"
+        },
+        "execution_time_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Query execution duration in milliseconds",
+          "title": "Execution Time Ms"
+        },
+        "filters_applied": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Business filters applied to query",
+          "title": "Filters Applied"
+        },
+        "truncated": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Whether result set was truncated",
+          "title": "Truncated"
+        },
+        "total_source_rows": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Total rows in source table if sampled",
+          "title": "Total Source Rows"
+        }
+      },
+      "title": "ReportMetadata",
+      "type": "object"
+    }
+  },
+  "description": "Canonical structured output contract from the Analytics Agent.\nServes as the single source of truth for dashboard and PDF report generation.",
+  "properties": {
+    "contract_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "1.0",
+      "description": "Contract schema version",
+      "title": "Contract Version"
+    },
+    "report_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Unique report identifier, e.g. RPT-20260909-001",
+      "title": "Report Id"
+    },
+    "business_question": {
+      "description": "Original business question asked",
+      "minLength": 2,
+      "title": "Business Question",
+      "type": "string"
+    },
+    "data_source": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DataSourceInfo"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Data source details"
+    },
+    "tables_used": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Database tables queried",
+      "title": "Tables Used"
+    },
+    "sql": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Auditable SQL query executed",
+      "title": "Sql"
+    },
+    "query_result": {
+      "$ref": "#/$defs/QueryResult",
+      "description": "Query result data"
+    },
+    "analysis": {
+      "$ref": "#/$defs/AnalysisContent",
+      "description": "Synthesized analytical insights"
+    },
+    "metadata": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ReportMetadata"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Audit and execution metadata"
+    }
+  },
+  "required": [
+    "business_question",
+    "query_result",
+    "analysis"
+  ],
+  "title": "AnalysisResult",
+  "type": "object"
+}
