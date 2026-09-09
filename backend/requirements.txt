@@ -1,0 +1,22 @@
+﻿# AGENTVERSE - Enterprise Analytics & Local Whisper Platform
+# Python Dependencies
+
+# Core API & Server
+fastapi>=0.100.0
+uvicorn>=0.20.0
+pydantic>=2.0.0
+python-multipart>=0.0.9
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# Local Speech-to-Text (faster-whisper)
+faster-whisper>=1.0.0
+ctranslate2>=4.0.0
+numpy>=1.24.0
+imageio-ffmpeg>=0.4.9
+
+# Enterprise Report Generator (PDF & Charts)
+reportlab>=5.0.0
+matplotlib>=3.9.0
+pypdf>=6.0.0
+pymupdf>=1.24.0
