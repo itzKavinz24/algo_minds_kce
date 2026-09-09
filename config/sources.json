@@ -1,0 +1,54 @@
+{
+  "sources": [
+    {
+      "id": "ecommerce_db",
+      "displayName": "E-Commerce PostgreSQL",
+      "engine": "postgresql",
+      "envPrefix": "ECOMMERCE_DB",
+      "schemas": ["public"],
+      "domainColumns": [
+        "public.customers.city",
+        "public.products.category",
+        "public.orders.status",
+        "public.payments.payment_method",
+        "public.payments.status"
+      ]
+    },
+    {
+      "id": "hrms_db", "displayName": "HRMS PostgreSQL", "engine": "postgresql",
+      "envPrefix": "HRMS_DB", "schemas": ["public"],
+      "domainColumns": [
+        "public.employees.gender", "public.employees.employment_type", "public.employees.employment_status",
+        "public.employees.location", "public.attendance.status", "public.leaves.status",
+        "public.payroll.payment_status", "public.performance_reviews.rating",
+        "public.employee_skills.proficiency_level", "public.employee_training.completion_status",
+        "public.training_programs.category", "public.designations.level"
+      ]
+    },
+    {
+      "id": "crm_db", "displayName": "CRM PostgreSQL", "engine": "postgresql",
+      "envPrefix": "CRM_DB", "schemas": ["public"],
+      "domainColumns": [
+        "public.customers.industry", "public.customers.customer_type", "public.customers.city",
+        "public.customers.acquisition_channel", "public.customers.customer_status", "public.leads.source",
+        "public.leads.industry", "public.leads.lead_status", "public.opportunities.opportunity_stage",
+        "public.opportunities.status", "public.activities.activity_type", "public.activities.outcome",
+        "public.customer_contacts.contact_role", "public.products.category", "public.products.status",
+        "public.quotes.status", "public.customer_tickets.priority", "public.customer_tickets.category",
+        "public.customer_tickets.status", "public.sales_representatives.status"
+      ]
+    },
+    {
+      "id": "erp_db", "displayName": "ERP PostgreSQL", "engine": "postgresql",
+      "envPrefix": "ERP_DB", "schemas": ["public"],
+      "domainColumns": [
+        "public.suppliers.payment_terms", "public.suppliers.rating", "public.suppliers.status",
+        "public.products.category", "public.products.unit", "public.products.status",
+        "public.purchase_orders.status", "public.customers.industry", "public.customers.status",
+        "public.sales_orders.payment_status", "public.sales_orders.order_status",
+        "public.invoices.payment_status", "public.payments.payment_method", "public.payments.status",
+        "public.expenses.expense_category", "public.expenses.status", "public.shipments.shipping_status"
+      ]
+    }
+  ]
+}
