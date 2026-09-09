@@ -1,6 +1,0 @@
-.local-pg/
-inspection.txt
-node_modules/
-dist/
-.env
-*.log
