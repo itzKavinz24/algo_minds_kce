@@ -1,0 +1,92 @@
+﻿{
+  "report_id": "RPT-20260909-002",
+  "business_question": "What is the employee headcount and average annual compensation across departments?",
+  "data_source": {
+    "id": "hrms_db",
+    "engine": "PostgreSQL",
+    "schema": "public",
+    "name": "Human Resources Management DB"
+  },
+  "tables_used": [
+    "employees",
+    "departments",
+    "salaries"
+  ],
+  "sql": "SELECT d.department_name, COUNT(e.id) AS headcount, ROUND(AVG(s.annual_salary), 2) AS avg_salary FROM departments d JOIN employees e ON d.id = e.department_id JOIN salaries s ON e.id = s.employee_id WHERE e.is_active = true GROUP BY d.department_name ORDER BY headcount DESC;",
+  "query_result": {
+    "columns": [
+      {
+        "name": "department_name",
+        "data_type": "text"
+      },
+      {
+        "name": "headcount",
+        "data_type": "integer"
+      },
+      {
+        "name": "avg_salary",
+        "data_type": "numeric"
+      }
+    ],
+    "rows": [
+      {
+        "department_name": "Software Engineering",
+        "headcount": 142,
+        "avg_salary": 1850000
+      },
+      {
+        "department_name": "Sales & Business Dev",
+        "headcount": 98,
+        "avg_salary": 1420000
+      },
+      {
+        "department_name": "Customer Support",
+        "headcount": 76,
+        "avg_salary": 680000
+      },
+      {
+        "department_name": "Product & Design",
+        "headcount": 45,
+        "avg_salary": 1920000
+      },
+      {
+        "department_name": "Operations & Logistics",
+        "headcount": 38,
+        "avg_salary": 850000
+      },
+      {
+        "department_name": "Human Resources",
+        "headcount": 22,
+        "avg_salary": 950000
+      }
+    ],
+    "row_count": 6
+  },
+  "analysis": {
+    "summary": "Software Engineering is the largest department with 142 full-time employees, while Product & Design commands the highest average compensation at ₹19,20,000.",
+    "key_findings": [
+      "Software Engineering represents 33.7% of total active company workforce.",
+      "Product & Design has the highest average annual compensation at ₹19,20,000, followed closely by Software Engineering at ₹18,50,000.",
+      "Customer Support and Operations maintain the lowest average compensation bands (₹6,80,000 and ₹8,50,000 respectively).",
+      "Total active workforce analyzed across all 6 departments stands at 421 employees."
+    ],
+    "recommendations": [
+      "Benchmark Customer Support compensation against industry quartiles to curb attrition risk.",
+      "Plan specialized technical leadership retention programs for Product & Design and Engineering.",
+      "Model projected payroll impact for proposed Q3 headcount expansion in Sales."
+    ],
+    "data_quality_and_limitations": [
+      "Only active, full-time payroll employees are reflected; contractors and interns are excluded.",
+      "Annual salary values reflect base compensation excluding performance equity and discretionary bonuses."
+    ]
+  },
+  "metadata": {
+    "generated_at": "2026-09-09T12:15:00+05:30",
+    "execution_time_ms": 14.2,
+    "filters_applied": [
+      "employees.is_active = true"
+    ],
+    "truncated": false,
+    "total_source_rows": 421
+  }
+}

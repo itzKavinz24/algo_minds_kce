@@ -27,3 +27,15 @@ dist/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Downloaded local speech model weights
+models/whisper-turbo/
+
+node_modules/
+tmp/
+output/
+report-generator/generated_reports/
+*.pre_*.py
+*.pre_*.js
+*.pre_*.jsx
+requirements.pre_*.txt
